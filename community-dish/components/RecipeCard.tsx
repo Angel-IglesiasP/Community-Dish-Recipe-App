@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderRadius: 12,
     overflow: "hidden",
-
     marginBottom: 16,
   },
   image: {
