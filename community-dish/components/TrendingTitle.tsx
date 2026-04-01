@@ -1,11 +1,11 @@
 import { StyleSheet, Text } from "react-native";
 import { colors } from "../constants/colors";
 
-type SectionTitleProps = {
+type TrendingTitleProps = {
   title: string;
 };
 
-export default function SectionTitle({ title }: SectionTitleProps) {
+export default function TrendingTitle({ title }: TrendingTitleProps) {
   return <Text style={styles.title}>{title}</Text>;
 }
 
@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "700",
-    color: colors.text,
-    marginBottom: 12,
+    color: colors.secondary,
+    marginBottom: 8,
+    marginTop: 8,
+    marginLeft: 16,
   },
 });

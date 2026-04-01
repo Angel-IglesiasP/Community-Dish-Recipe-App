@@ -31,13 +31,13 @@ export default function SearchBar({
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginBottom: 16,
+    flex: 1,
   },
   input: {
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 12,
+    borderRadius: 25,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,

@@ -1,13 +1,16 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { colors } from "../constants/colors";
 import { Recipe } from "../types/recipe";
+import { colors } from "../constants/colors";
 
-type RecipeCardProps = {
+type RecipePreviewCardProps = {
   recipe: Recipe;
   onPress?: () => void;
 };
 
-export default function RecipeCard({ recipe, onPress }: RecipeCardProps) {
+export default function RecipePreviewCard({
+  recipe,
+  onPress,
+}: RecipePreviewCardProps) {
   return (
     <Pressable style={styles.card} onPress={onPress}>
       {recipe.imageUrl ? (
@@ -19,12 +22,10 @@ export default function RecipeCard({ recipe, onPress }: RecipeCardProps) {
       )}
 
       <View style={styles.content}>
-        <Text style={styles.title}>{recipe.title}</Text>
-        <Text style={styles.meta}>{recipe.category}</Text>
-        <Text style={styles.meta}>Servings: {recipe.servings}</Text>
-        <Text style={styles.description} numberOfLines={2}>
-          {recipe.description}
+        <Text style={styles.title} numberOfLines={2}>
+          {recipe.title}
         </Text>
+        <Text style={styles.category}>{recipe.category}</Text>
       </View>
     </Pressable>
   );
@@ -32,42 +33,45 @@ export default function RecipeCard({ recipe, onPress }: RecipeCardProps) {
 
 const styles = StyleSheet.create({
   card: {
+    width: 200,
     backgroundColor: colors.surface,
     borderRadius: 12,
     overflow: "hidden",
-
-    marginBottom: 16,
+    marginRight: 5,
+    marginLeft: 5,
+    marginBottom: 8,
+    shadowColor: "#0000003f",
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
   },
   image: {
     width: "100%",
-    height: 180,
+    height: 110,
   },
   imagePlaceholder: {
     width: "100%",
-    height: 180,
+    height: 110,
     backgroundColor: colors.border,
     justifyContent: "center",
     alignItems: "center",
   },
   placeholderText: {
     color: colors.mutedText,
-    fontSize: 16,
+    fontSize: 14,
   },
   content: {
-    padding: 16,
-    gap: 6,
+    padding: 8,
+    gap: 4,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "700",
     color: colors.text,
   },
-  meta: {
+  category: {
     fontSize: 14,
     color: colors.mutedText,
-  },
-  description: {
-    fontSize: 15,
-    color: colors.text,
   },
 });
