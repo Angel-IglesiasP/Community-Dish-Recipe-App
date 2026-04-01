@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, router } from "expo-router";
 
 export default function TabsLayout() {
   return (
@@ -6,6 +6,14 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{ title: "Home" }}
+        listeners={{
+          tabPress: () => {
+            router.replace({
+              pathname: "/",
+              params: { reset: Date.now().toString() },
+            });
+          },
+        }}
       />
       <Tabs.Screen
         name="favorites"

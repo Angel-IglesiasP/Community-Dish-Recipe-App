@@ -40,7 +40,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    marginBottom: 16,
+    marginBottom: 10,
+    marginLeft: 16,
+    marginRight: 16,
+    marginTop: 16,
   },
   logoContainer: {
     width: 56,

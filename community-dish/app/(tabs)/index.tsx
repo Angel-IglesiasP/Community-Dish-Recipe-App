@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useLocalSearchParams } from "expo-router";
 import {ActivityIndicator,ScrollView,StyleSheet,Text,View,} from "react-native";
 import ScreenContainer from "../../components/ScreenContainer";
-import SectionTitle from "../../components/TrendingTitle";
 import CategoryTitle from "../../components/CategoryTitle";
 import HomeHeader from "../../components/HomeHeader";
 import RecipeCard from "../../components/RecipeCard";
@@ -11,7 +10,6 @@ import { Recipe } from "../../types/recipe";
 import { getMealsByCategory, searchMealsByName, getTrendingMeals } from "../../services/mealDb";
 import RecipePreviewCard from "../../components/RecipePreviewCard";
 import TrendingTitle from "../../components/TrendingTitle";
-
 
 type CategorySection = {
   title: string;
@@ -29,13 +27,12 @@ export default function HomeScreen() {
   const [homeLoading, setHomeLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [trendingRecipes, setTrendingRecipes] = useState<Recipe[]>([]);
-
-    const navigation = useNavigation();
-      const resetHomeScreen = useCallback(() => {
-    setSearchText("");
-    setSubmittedSearch("");
-    setSearchResults([]);
-    setErrorMessage("");
+  const { reset } = useLocalSearchParams<{ reset?: string }>();
+  const resetHomeScreen = useCallback(() => {
+  setSearchText("");
+  setSubmittedSearch("");
+  setSearchResults([]);
+  setErrorMessage("");
   }, []);
 
  useEffect(() => {
@@ -95,13 +92,8 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("tabPress", () => {
-      resetHomeScreen();
-    });
-
-    return unsubscribe;
-  }, [navigation, resetHomeScreen]);
-
+    resetHomeScreen();
+  }, [reset, resetHomeScreen]);
 
   const isShowingSearchResults = submittedSearch.length > 0;
 
@@ -122,8 +114,8 @@ export default function HomeScreen() {
 
             <ScrollView showsVerticalScrollIndicator={false}>
         {isShowingSearchResults ? (
-          <View style={styles.section}>
-            <SectionTitle title="Results you might like!:" />
+          <View style={styles.searchResultsContainer}>
+            <Text style={styles.resultsTitle}>Recipes you might like!:</Text>
             <View style={styles.grid}>
               {searchResults.map((recipe) => (
                 <View key={recipe.id} style={styles.gridItem}>
@@ -216,4 +208,14 @@ grid: {
     marginBottom: 12,
     width: "85%",
   },
+  resultsTitle: {
+  fontSize: 22,
+  fontWeight: "700",
+  color: colors.secondary,
+  marginBottom: 12,
+},
+searchResultsContainer: {
+  paddingHorizontal: 12,
+  paddingTop: 5,
+},
 });
