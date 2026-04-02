@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   emptyText: {
-    color: colors.mutedText,
+    color: colors.main_nav,
     fontSize: 16,
     marginTop: 8,
     marginBottom: 16,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   trendingDivider: {
     height: 2,
-    backgroundColor: "#000000",
+    backgroundColor: colors.main_nav,
     marginTop: -4,
     marginBottom: 12,
     width: "85%",
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   resultsTitle: {
     fontSize: 22,
     fontWeight: "700",
-    color: colors.secondary,
+    color: colors.main_nav,
     marginBottom: 12,
   },
   searchResultsContainer: {

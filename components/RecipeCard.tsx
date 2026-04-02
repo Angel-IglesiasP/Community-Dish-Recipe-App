@@ -32,9 +32,12 @@ export default function RecipeCard({
       </View>
 
       <View style={styles.content}>
-        <Text style={styles.title}>{recipe.title}</Text>
-        <Text style={styles.meta}>{recipe.category}</Text>
-        <Text style={styles.meta}>Servings: {recipe.servings}</Text>
+        <Text style={styles.title} numberOfLines={2}>
+          {recipe.title}
+        </Text>
+        <Text style={styles.meta} numberOfLines={1}>
+          {recipe.category}
+        </Text>
         <Text style={styles.description} numberOfLines={2}>
           {recipe.description}
         </Text>
@@ -45,11 +48,11 @@ export default function RecipeCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accent,
     borderRadius: 12,
     overflow: "hidden",
-    borderWidth: 1,
-    borderColor: colors.border,
+    borderWidth: 2,
+    borderColor: colors.secondary_orange,
     marginBottom: 16,
   },
   imageWrapper: {
@@ -57,17 +60,17 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 180,
+    height: 140,
   },
   imagePlaceholder: {
     width: "100%",
-    height: 180,
-    backgroundColor: colors.border,
+    height: 140,
+    backgroundColor: colors.secondary_orange,
     justifyContent: "center",
     alignItems: "center",
   },
   placeholderText: {
-    color: colors.mutedText,
+    color: colors.main_nav,
     fontSize: 16,
   },
   favoriteButton: {
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
   },
   favoriteIcon: {
     fontSize: 18,
-    color: colors.secondary,
+    color: colors.primary_orange,
   },
   content: {
     padding: 16,
@@ -92,14 +95,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "700",
-    color: colors.text,
+    color: colors.main_nav,
   },
   meta: {
     fontSize: 14,
-    color: colors.mutedText,
+    color: colors.main_nav,
   },
   description: {
     fontSize: 15,
-    color: colors.text,
+    color: colors.main_nav,
   },
 });

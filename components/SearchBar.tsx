@@ -21,7 +21,7 @@ export default function SearchBar({
         onChangeText={onChangeText}
         onSubmitEditing={onSubmit}
         placeholder={placeholder}
-        placeholderTextColor={colors.mutedText}
+        placeholderTextColor={colors.main_nav}
         returnKeyType="search"
         style={styles.input}
       />
@@ -31,16 +31,17 @@ export default function SearchBar({
 
 const styles = StyleSheet.create({
   wrapper: {
+    marginTop: 5,
     flex: 1,
   },
   input: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accent,
     borderWidth: 1,
-    borderColor: colors.border,
     borderRadius: 25,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
-    color: colors.text,
+    fontWeight: "500",
+    color: colors.main_nav,
   },
 });

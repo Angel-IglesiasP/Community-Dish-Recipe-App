@@ -1,6 +1,7 @@
+//done!!
+import { colors } from "@/constants/colors";
 import { Image, StyleSheet, View } from "react-native";
 import SearchBar from "./SearchBar";
-import { colors } from "../constants/colors";
 
 type HomeHeaderProps = {
   searchText: string;
@@ -40,23 +41,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    marginBottom: 10,
-    marginLeft: 16,
-    marginRight: 16,
-    marginTop: 16,
+    padding: 10,
+    backgroundColor: colors.main_nav,
   },
   logoContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.surface,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.accent,
+    overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
-    overflow: "hidden",
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 54,
+    height: 54,
+    borderRadius: 25,
   },
   searchContainer: {
     flex: 1,

@@ -19,15 +19,13 @@ export default function FavoritesScreen() {
         </View>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
-          {favorites.map((recipe) => (
-            <View key={recipe.id} style={styles.favoriteItem}>
-              <RecipeCard
-                recipe={recipe}
-                isFavorite={true}
-                onToggleFavorite={() => toggleFavorite(recipe)}
-              />
-            </View>
-          ))}
+          <View style={styles.grid}>
+            {favorites.map((recipe) => (
+              <View key={recipe.id} style={styles.gridItem}>
+                <RecipeCard recipe={recipe} />
+              </View>
+            ))}
+          </View>
         </ScrollView>
       )}
     </ScreenContainer>
@@ -60,15 +58,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingHorizontal: 12,
   },
-  removeButton: {
-    marginTop: 8,
-    backgroundColor: colors.primary,
-    paddingVertical: 10,
-    borderRadius: 10,
-    alignItems: "center",
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
   },
-  removeButtonText: {
-    color: "#FFFFFF",
-    fontWeight: "600",
+  gridItem: {
+    width: "48%",
+    marginBottom: 12,
   },
 });
