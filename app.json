@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "community-dish",
-    "slug": "community-dish",
+    "name": "so-tried-of-ts-twin",
+    "slug": "so-tried-of-ts-twin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "communitydish",
+    "scheme": "sotriedoftstwin",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
