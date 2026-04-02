@@ -1,15 +1,26 @@
-import { useEffect, useState, useCallback } from "react";
+import { useFavorites } from "@/src/context/FavoritesContext";
 import { useLocalSearchParams } from "expo-router";
-import {ActivityIndicator,ScrollView,StyleSheet,Text,View,} from "react-native";
-import ScreenContainer from "../../components/ScreenContainer";
+import { useCallback, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import CategoryTitle from "../../components/CategoryTitle";
 import HomeHeader from "../../components/HomeHeader";
 import RecipeCard from "../../components/RecipeCard";
-import { colors } from "../../constants/colors";
-import { Recipe } from "../../types/recipe";
-import { getMealsByCategory, searchMealsByName, getTrendingMeals } from "../../services/mealDb";
 import RecipePreviewCard from "../../components/RecipePreviewCard";
+import ScreenContainer from "../../components/ScreenContainer";
 import TrendingTitle from "../../components/TrendingTitle";
+import { colors } from "../../constants/colors";
+import {
+  getMealsByCategory,
+  getTrendingMeals,
+  searchMealsByName,
+} from "../../services/mealDb";
+import { Recipe } from "../../types/recipe";
 
 type CategorySection = {
   title: string;
@@ -22,46 +33,49 @@ export default function HomeScreen() {
   const [searchText, setSearchText] = useState("");
   const [submittedSearch, setSubmittedSearch] = useState("");
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
-  const [categorySections, setCategorySections] = useState<CategorySection[]>([]);
+  const [categorySections, setCategorySections] = useState<CategorySection[]>(
+    [],
+  );
   const [loading, setLoading] = useState(false);
   const [homeLoading, setHomeLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [trendingRecipes, setTrendingRecipes] = useState<Recipe[]>([]);
+  const { isFavorite, toggleFavorite } = useFavorites();
   const { reset } = useLocalSearchParams<{ reset?: string }>();
   const resetHomeScreen = useCallback(() => {
-  setSearchText("");
-  setSubmittedSearch("");
-  setSearchResults([]);
-  setErrorMessage("");
+    setSearchText("");
+    setSubmittedSearch("");
+    setSearchResults([]);
+    setErrorMessage("");
   }, []);
 
- useEffect(() => {
+  useEffect(() => {
     const loadHomeCategories = async () => {
-  try {
-    setHomeLoading(true);
-    setErrorMessage("");
+      try {
+        setHomeLoading(true);
+        setErrorMessage("");
 
-    const [trending, sectionResults] = await Promise.all([
-      getTrendingMeals(),
-      Promise.all(
-        HOME_CATEGORIES.map(async (category) => {
-          const recipes = await getMealsByCategory(category);
-          return {
-            title: category,
-            recipes: recipes.slice(0, 5),
-          };
-        })
-      ),
-    ]);
+        const [trending, sectionResults] = await Promise.all([
+          getTrendingMeals(),
+          Promise.all(
+            HOME_CATEGORIES.map(async (category) => {
+              const recipes = await getMealsByCategory(category);
+              return {
+                title: category,
+                recipes: recipes.slice(0, 5),
+              };
+            }),
+          ),
+        ]);
 
-    setTrendingRecipes(trending);
-    setCategorySections(sectionResults);
-  } catch (error) {
-    setErrorMessage("Could not load home categories.");
-  } finally {
-    setHomeLoading(false);
-  }
-};
+        setTrendingRecipes(trending);
+        setCategorySections(sectionResults);
+      } catch (error) {
+        setErrorMessage("Could not load home categories.");
+      } finally {
+        setHomeLoading(false);
+      }
+    };
 
     loadHomeCategories();
   }, []);
@@ -99,7 +113,6 @@ export default function HomeScreen() {
 
   return (
     <ScreenContainer>
-
       <HomeHeader
         searchText={searchText}
         onChangeSearchText={setSearchText}
@@ -110,9 +123,11 @@ export default function HomeScreen() {
         <ActivityIndicator size="large" color={colors.primary} />
       ) : null}
 
-      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+      {errorMessage ? (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      ) : null}
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {isShowingSearchResults ? (
           <View style={styles.searchResultsContainer}>
             <Text style={styles.resultsTitle}>Recipes you might like!:</Text>
@@ -138,7 +153,12 @@ export default function HomeScreen() {
                 contentContainerStyle={styles.horizontalList}
               >
                 {trendingRecipes.map((recipe) => (
-                  <RecipePreviewCard key={recipe.id} recipe={recipe} />
+                  <RecipePreviewCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    isFavorite={isFavorite(recipe.id)}
+                    onToggleFavorite={() => toggleFavorite(recipe)}
+                  />
                 ))}
               </ScrollView>
             </View>
@@ -152,7 +172,12 @@ export default function HomeScreen() {
                   contentContainerStyle={styles.horizontalList}
                 >
                   {section.recipes.map((recipe) => (
-                    <RecipePreviewCard key={recipe.id} recipe={recipe} />
+                    <RecipePreviewCard
+                      key={recipe.id}
+                      recipe={recipe}
+                      isFavorite={isFavorite(recipe.id)}
+                      onToggleFavorite={() => toggleFavorite(recipe)}
+                    />
                   ))}
                 </ScrollView>
               </View>
@@ -160,7 +185,6 @@ export default function HomeScreen() {
           </>
         )}
       </ScrollView>
-
     </ScreenContainer>
   );
 }
@@ -182,9 +206,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   horizontalList: {
-  paddingBottom: 8,
-},
-grid: {
+    paddingBottom: 8,
+  },
+  grid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
@@ -193,7 +217,7 @@ grid: {
     width: "48%",
     marginBottom: 12,
   },
-    trendingContainer: {
+  trendingContainer: {
     backgroundColor: "#caa2a2",
     borderWidth: 2,
     borderColor: "#000000",
@@ -209,13 +233,13 @@ grid: {
     width: "85%",
   },
   resultsTitle: {
-  fontSize: 22,
-  fontWeight: "700",
-  color: colors.secondary,
-  marginBottom: 12,
-},
-searchResultsContainer: {
-  paddingHorizontal: 12,
-  paddingTop: 5,
-},
+    fontSize: 22,
+    fontWeight: "700",
+    color: colors.secondary,
+    marginBottom: 12,
+  },
+  searchResultsContainer: {
+    paddingHorizontal: 12,
+    paddingTop: 5,
+  },
 });
