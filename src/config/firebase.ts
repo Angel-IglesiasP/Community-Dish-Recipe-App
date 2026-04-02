@@ -7,12 +7,12 @@ import { getReactNativePersistence, initializeAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBhAaGO0dpfhC9v3gPS7ROze_tJkn-g3oc",
-  authDomain: "mobile-dev-app-95c39.firebaseapp.com",
-  projectId: "mobile-dev-app-95c39",
-  storageBucket: "mobile-dev-app-95c39.firebasestorage.app",
-  messagingSenderId: "254272297618",
-  appId: "1:254272297618:web:ba48db8d83ff46688f244b",
+  apiKey: NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+  appId: NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
