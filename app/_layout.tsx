@@ -1,4 +1,5 @@
 import { AuthProvider, useAuth } from "@/src/context/AuthContext";
+import { FavoritesProvider } from "@/src/context/FavoritesContext";
 import { Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 
@@ -29,7 +30,9 @@ function RouteNavigator() {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <RouteNavigator />
+      <FavoritesProvider>
+        <RouteNavigator />
+      </FavoritesProvider>
     </AuthProvider>
   );
 }
