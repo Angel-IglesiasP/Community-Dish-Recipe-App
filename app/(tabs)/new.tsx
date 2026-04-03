@@ -1,6 +1,6 @@
 import { useMyRecipes } from "@/src/context/MyRecipesContext";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -24,6 +24,22 @@ export default function NewRecipeScreen() {
 
   const [ingredients, setIngredients] = useState([{ amount: "", name: "" }]);
   const [preparationSteps, setPreparationSteps] = useState([{ step: "" }]);
+
+  //drawe menu navigation
+  const [menuOpen, setMenuOpen] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const [titleY, setTitleY] = useState(0);
+  const [categoryY, setCategoryY] = useState(0);
+  const [descriptionY, setDescriptionY] = useState(0);
+  const [servingsY, setServingsY] = useState(0);
+  const [ingredientsY, setIngredientsY] = useState(0);
+  const [preparationY, setPreparationY] = useState(0);
+
+  const scrollToSection = (y: number) => {
+    scrollViewRef.current?.scrollTo({ y, animated: true });
+    setMenuOpen(false);
+  };
 
   const updateIngredient = (
     index: number,
@@ -102,6 +118,10 @@ export default function NewRecipeScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.header}>
+          <Pressable onPress={() => setMenuOpen((current) => !current)}>
+            <Text style={styles.menuButtonText}>☰</Text>
+          </Pressable>
+
           <View style={styles.titleOverlay}>
             <View style={styles.titlePill}>
               <Text style={styles.titleText}>
@@ -110,12 +130,68 @@ export default function NewRecipeScreen() {
             </View>
           </View>
         </View>
+        {menuOpen ? (
+          <>
+            <Pressable
+              style={styles.drawerBackdrop}
+              onPress={() => setMenuOpen(false)}
+            />
+            <View style={styles.drawerPanel}>
+              <Pressable
+                style={styles.drawerItem}
+                onPress={() => scrollToSection(titleY)}
+              >
+                <Text style={styles.drawerItemText}>Title</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.drawerItem}
+                onPress={() => scrollToSection(categoryY)}
+              >
+                <Text style={styles.drawerItemText}>Category</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.drawerItem}
+                onPress={() => scrollToSection(descriptionY)}
+              >
+                <Text style={styles.drawerItemText}>Description</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.drawerItem}
+                onPress={() => scrollToSection(servingsY)}
+              >
+                <Text style={styles.drawerItemText}>Servings</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.drawerItem}
+                onPress={() => scrollToSection(ingredientsY)}
+              >
+                <Text style={styles.drawerItemText}>Ingredients</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.drawerItem}
+                onPress={() => scrollToSection(preparationY)}
+              >
+                <Text style={styles.drawerItemText}>Preparation</Text>
+              </Pressable>
+            </View>
+          </>
+        ) : null}
 
         <ScrollView
+          ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
         >
-          <View style={styles.fieldBlock}>
+          <View
+            style={styles.fieldBlock}
+            onLayout={(event) => setTitleY(event.nativeEvent.layout.y)}
+          >
             <View style={styles.fieldLabelPill}>
               <Text style={styles.fieldLabelText}>Title</Text>
             </View>
@@ -128,7 +204,10 @@ export default function NewRecipeScreen() {
             />
           </View>
 
-          <View style={styles.fieldBlock}>
+          <View
+            style={styles.fieldBlock}
+            onLayout={(event) => setCategoryY(event.nativeEvent.layout.y)}
+          >
             <View style={styles.fieldLabelPill}>
               <Text style={styles.fieldLabelText}>Category</Text>
             </View>
@@ -141,7 +220,10 @@ export default function NewRecipeScreen() {
             />
           </View>
 
-          <View style={styles.fieldBlock}>
+          <View
+            style={styles.fieldBlock}
+            onLayout={(event) => setDescriptionY(event.nativeEvent.layout.y)}
+          >
             <View style={styles.fieldLabelPill}>
               <Text style={styles.fieldLabelText}>Description</Text>
             </View>
@@ -156,7 +238,10 @@ export default function NewRecipeScreen() {
             />
           </View>
 
-          <View style={styles.fieldBlock}>
+          <View
+            style={styles.fieldBlock}
+            onLayout={(event) => setServingsY(event.nativeEvent.layout.y)}
+          >
             <View style={styles.fieldLabelPill}>
               <Text style={styles.fieldLabelText}>Servings</Text>
             </View>
@@ -171,7 +256,10 @@ export default function NewRecipeScreen() {
 
           <View style={styles.divider} />
 
-          <View style={styles.fieldBlock}>
+          <View
+            style={styles.fieldBlock}
+            onLayout={(event) => setIngredientsY(event.nativeEvent.layout.y)}
+          >
             <View style={styles.fieldLabelPill}>
               <Text style={styles.fieldLabelText}>Ingredients</Text>
             </View>
@@ -204,7 +292,10 @@ export default function NewRecipeScreen() {
 
           <View style={styles.divider} />
 
-          <View style={styles.fieldBlock}>
+          <View
+            style={styles.fieldBlock}
+            onLayout={(event) => setPreparationY(event.nativeEvent.layout.y)}
+          >
             <View style={styles.fieldLabelPill}>
               <Text style={styles.fieldLabelText}>Preparation</Text>
             </View>
@@ -258,8 +349,8 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   menuButtonText: {
-    fontSize: 28,
-    fontWeight: "700",
+    fontSize: 60,
+    fontWeight: "800",
     color: colors.primary_orange,
   },
   titleOverlay: {
@@ -421,6 +512,40 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   saveButtonText: {
+    color: colors.accent,
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  drawerBackdrop: {
+    position: "absolute",
+    top: 70,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 15,
+  },
+  drawerPanel: {
+    position: "absolute",
+    top: 70,
+    left: 0,
+    bottom: 0,
+    width: "58%",
+    backgroundColor: colors.main_nav,
+    paddingTop: 25,
+    paddingHorizontal: 18,
+    zIndex: 20,
+  },
+
+  drawerItem: {
+    alignSelf: "flex-start",
+    backgroundColor: colors.primary_orange,
+    borderRadius: 999,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginBottom: 18,
+  },
+
+  drawerItemText: {
     color: colors.accent,
     fontSize: 18,
     fontWeight: "700",

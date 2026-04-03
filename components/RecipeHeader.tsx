@@ -12,17 +12,21 @@ export default function RecipeHeader({
 }: RecipeHeaderProps) {
   return (
     <View style={styles.header}>
-      <Pressable onPress={onMenuPress}>
-        <Text style={styles.menuButtonText}>☰</Text>
-      </Pressable>
+      <View style={styles.sideSlot}>
+        <Pressable onPress={onMenuPress}>
+          <Text style={styles.menuButtonText}>☰</Text>
+        </Pressable>
+      </View>
 
-      <View style={styles.titleOverlay}>
+      <View style={styles.centerSlot}>
         <View style={styles.titlePill}>
           <Text style={styles.titleText} numberOfLines={1}>
             {title}
           </Text>
         </View>
       </View>
+
+      <View style={styles.sideSlot} />
     </View>
   );
 }
@@ -30,35 +34,41 @@ export default function RecipeHeader({
 const styles = StyleSheet.create({
   header: {
     height: 70,
-    justifyContent: "center",
-    paddingHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.main_nav,
+    paddingHorizontal: 10,
     marginBottom: 15,
   },
+
+  sideSlot: {
+    width: 56,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  centerSlot: {
+    flex: 1,
+    alignItems: "center",
+  },
+
   menuButtonText: {
-    fontSize: 60,
+    fontSize: 44,
     fontWeight: "800",
     color: colors.primary_orange,
   },
-  titleOverlay: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 70,
-  },
+
   titlePill: {
     minWidth: 200,
-    maxWidth: "70%",
+    maxWidth: "85%",
     backgroundColor: colors.primary_orange,
     borderRadius: 25,
     paddingHorizontal: 16,
     paddingVertical: 10,
+    alignItems: "center",
     justifyContent: "center",
   },
+
   titleText: {
     color: colors.accent,
     fontSize: 20,
