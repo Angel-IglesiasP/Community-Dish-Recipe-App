@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: 54,
-    height: 54,
+    width: 55,
+    height: 55,
     borderRadius: 25,
   },
   searchContainer: {

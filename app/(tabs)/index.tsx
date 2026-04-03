@@ -120,7 +120,7 @@ export default function HomeScreen() {
       />
 
       {loading || homeLoading ? (
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.primary_orange} />
       ) : null}
 
       {errorMessage ? (
@@ -134,7 +134,11 @@ export default function HomeScreen() {
             <View style={styles.grid}>
               {searchResults.map((recipe) => (
                 <View key={recipe.id} style={styles.gridItem}>
-                  <RecipeCard recipe={recipe} />
+                  <RecipeCard
+                    recipe={recipe}
+                    isFavorite={isFavorite(recipe.id)}
+                    onToggleFavorite={() => toggleFavorite(recipe)}
+                  />
                 </View>
               ))}
             </View>
@@ -201,6 +205,10 @@ const styles = StyleSheet.create({
   emptyText: {
     color: colors.main_nav,
     fontSize: 16,
+    fontWeight: "600",
+    textShadowColor: "rgba(255, 192, 82, 0.75)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 12,
     marginTop: 8,
     marginBottom: 16,
     textAlign: "center",
@@ -236,7 +244,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "700",
     color: colors.main_nav,
-    marginBottom: 12,
+    marginBottom: 8,
+    marginTop: 12,
   },
   searchResultsContainer: {
     paddingHorizontal: 12,

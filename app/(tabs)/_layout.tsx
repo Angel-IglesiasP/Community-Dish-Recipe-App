@@ -72,6 +72,8 @@ export default function TabsLayout() {
           ),
         }}
       />
+      {/* this is just to hide the recipe[id] from showing in the nav bar. dont worry about it twin */}
+      <Tabs.Screen name="recipe/[id]" options={{ href: null }} />
     </Tabs>
   );
 }

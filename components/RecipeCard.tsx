@@ -54,6 +54,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.secondary_orange,
     marginBottom: 16,
+    height: 270,
+    maxHeight: 270,
+    marginTop: 4,
   },
   imageWrapper: {
     position: "relative",
@@ -89,11 +92,11 @@ const styles = StyleSheet.create({
     color: colors.primary_orange,
   },
   content: {
-    padding: 16,
-    gap: 6,
+    padding: 14,
+    gap: 4,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "700",
     color: colors.main_nav,
   },
