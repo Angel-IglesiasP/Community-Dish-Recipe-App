@@ -1,16 +1,26 @@
-import { useMyRecipes } from "@/src/context/MyRecipesContext";
 import { useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import RecipeHeader from "../../../components/RecipeHeader";
 import ScreenContainer from "../../../components/ScreenContainer";
 import { colors } from "../../../constants/colors";
+import { getMealById } from "../../../services/mealDb";
+import { Recipe } from "../../../types/recipe";
 
 export default function RecipeDetailScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const { myRecipes } = useMyRecipes();
+  const { recipe: recipeParam } = useLocalSearchParams<{ recipe?: string }>();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [displayRecipe, setDisplayRecipe] = useState<Recipe | null>(null);
+  const [loadingRecipe, setLoadingRecipe] = useState(false);
+
   const scrollViewRef = useRef<ScrollView>(null);
 
   const [titleY, setTitleY] = useState(0);
@@ -24,7 +34,35 @@ export default function RecipeDetailScreen() {
     setMenuOpen(false);
   };
 
-  const recipe = myRecipes.find((item) => item.id === id);
+  const recipe: Recipe | undefined = recipeParam
+    ? JSON.parse(recipeParam)
+    : undefined;
+
+  useEffect(() => {
+    const loadRecipeDetails = async () => {
+      if (!recipe) {
+        setDisplayRecipe(null);
+        return;
+      }
+
+      if (recipe.source === "local") {
+        setDisplayRecipe(recipe);
+        return;
+      }
+
+      try {
+        setLoadingRecipe(true);
+        const fullRecipe = await getMealById(recipe.id);
+        setDisplayRecipe(fullRecipe ?? recipe);
+      } catch (error) {
+        setDisplayRecipe(recipe);
+      } finally {
+        setLoadingRecipe(false);
+      }
+    };
+
+    loadRecipeDetails();
+  }, [recipeParam]);
 
   if (!recipe) {
     return (
@@ -82,10 +120,38 @@ export default function RecipeDetailScreen() {
     );
   }
 
+  if (loadingRecipe && !displayRecipe) {
+    return (
+      <ScreenContainer>
+        <RecipeHeader
+          title={recipe.title}
+          onMenuPress={() => setMenuOpen((current) => !current)}
+        />
+        <View style={styles.emptyContainer}>
+          <ActivityIndicator size="large" color={colors.primary_orange} />
+        </View>
+      </ScreenContainer>
+    );
+  }
+
+  if (!displayRecipe) {
+    return (
+      <ScreenContainer>
+        <RecipeHeader
+          title="Recipe"
+          onMenuPress={() => setMenuOpen((current) => !current)}
+        />
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Recipe not found.</Text>
+        </View>
+      </ScreenContainer>
+    );
+  }
+
   return (
     <ScreenContainer>
       <RecipeHeader
-        title={recipe.title}
+        title={displayRecipe.title}
         onMenuPress={() => setMenuOpen((current) => !current)}
       />
 
@@ -146,7 +212,7 @@ export default function RecipeDetailScreen() {
           <View style={styles.fieldLabelPill}>
             <Text style={styles.fieldLabelText}>Title</Text>
           </View>
-          <Text style={styles.fieldValueText}>{recipe.title}</Text>
+          <Text style={styles.fieldValueText}>{displayRecipe.title}</Text>
         </View>
 
         <View
@@ -156,7 +222,7 @@ export default function RecipeDetailScreen() {
           <View style={styles.fieldLabelPill}>
             <Text style={styles.fieldLabelText}>Description</Text>
           </View>
-          <Text style={styles.fieldValueText}>{recipe.description}</Text>
+          <Text style={styles.fieldValueText}>{displayRecipe.description}</Text>
         </View>
 
         <View
@@ -166,10 +232,8 @@ export default function RecipeDetailScreen() {
           <View style={styles.fieldLabelPill}>
             <Text style={styles.fieldLabelText}>Servings</Text>
           </View>
-          <Text style={styles.fieldValueText}>{recipe.servings}</Text>
+          <Text style={styles.fieldValueText}>{displayRecipe.servings}</Text>
         </View>
-
-        <View style={styles.divider} />
 
         <View
           style={styles.fieldBlock}
@@ -179,10 +243,10 @@ export default function RecipeDetailScreen() {
             <Text style={styles.fieldLabelText}>Ingredients</Text>
           </View>
 
-          {recipe.ingredients.length === 0 ? (
+          {displayRecipe.ingredients.length === 0 ? (
             <Text style={styles.fieldValueText}>No ingredients provided.</Text>
           ) : (
-            recipe.ingredients.map((ingredient, index) => (
+            displayRecipe.ingredients.map((ingredient, index) => (
               <View key={index} style={styles.listRow}>
                 <View style={styles.numberBox}>
                   <Text style={styles.numberText}>{index + 1}</Text>
@@ -193,8 +257,6 @@ export default function RecipeDetailScreen() {
           )}
         </View>
 
-        <View style={styles.divider} />
-
         <View
           style={styles.fieldBlock}
           onLayout={(event) => setPreparationY(event.nativeEvent.layout.y)}
@@ -203,12 +265,12 @@ export default function RecipeDetailScreen() {
             <Text style={styles.fieldLabelText}>Preparation</Text>
           </View>
 
-          {recipe.preparation.length === 0 ? (
+          {displayRecipe.preparation.length === 0 ? (
             <Text style={styles.fieldValueText}>
               No preparation steps provided.
             </Text>
           ) : (
-            recipe.preparation.map((step, index) => (
+            displayRecipe.preparation.map((step, index) => (
               <View key={index} style={styles.listRow}>
                 <View style={styles.numberBox}>
                   <Text style={styles.numberText}>{index + 1}</Text>
@@ -262,11 +324,6 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     fontWeight: "500",
   },
-  divider: {
-    height: 2,
-    backgroundColor: colors.secondary_orange,
-    marginBottom: 22,
-  },
   listRow: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -314,14 +371,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     zIndex: 20,
   },
-
   drawerItem: {
     alignSelf: "flex-start",
     backgroundColor: colors.primary_orange,
     borderRadius: 999,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    marginBottom: 30,
+    marginBottom: 18,
   },
   drawerItemText: {
     color: colors.accent,

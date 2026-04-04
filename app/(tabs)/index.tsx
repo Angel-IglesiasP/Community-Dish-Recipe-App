@@ -1,5 +1,5 @@
 import { useFavorites } from "@/src/context/FavoritesContext";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -138,6 +138,15 @@ export default function HomeScreen() {
                     recipe={recipe}
                     isFavorite={isFavorite(recipe.id)}
                     onToggleFavorite={() => toggleFavorite(recipe)}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/recipe/[id]",
+                        params: {
+                          id: recipe.id,
+                          recipe: JSON.stringify(recipe),
+                        },
+                      })
+                    }
                   />
                 </View>
               ))}
@@ -162,6 +171,15 @@ export default function HomeScreen() {
                     recipe={recipe}
                     isFavorite={isFavorite(recipe.id)}
                     onToggleFavorite={() => toggleFavorite(recipe)}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/recipe/[id]",
+                        params: {
+                          id: recipe.id,
+                          recipe: JSON.stringify(recipe),
+                        },
+                      })
+                    }
                   />
                 ))}
               </ScrollView>
@@ -181,6 +199,15 @@ export default function HomeScreen() {
                       recipe={recipe}
                       isFavorite={isFavorite(recipe.id)}
                       onToggleFavorite={() => toggleFavorite(recipe)}
+                      onPress={() =>
+                        router.push({
+                          pathname: "/recipe/[id]",
+                          params: {
+                            id: recipe.id,
+                            recipe: JSON.stringify(recipe),
+                          },
+                        })
+                      }
                     />
                   ))}
                 </ScrollView>

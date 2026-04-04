@@ -1,4 +1,5 @@
 import { useFavorites } from "@/src/context/FavoritesContext";
+import { router } from "expo-router";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import RecipeCard from "../../components/RecipeCard";
@@ -46,6 +47,15 @@ export default function FavoritesScreen() {
                   recipe={recipe}
                   isFavorite={true}
                   onToggleFavorite={() => toggleFavorite(recipe)}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/recipe/[id]",
+                      params: {
+                        id: recipe.id,
+                        recipe: JSON.stringify(recipe),
+                      },
+                    })
+                  }
                 />
               </View>
             ))}

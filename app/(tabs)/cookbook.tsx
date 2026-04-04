@@ -29,7 +29,10 @@ export default function CookbookScreen() {
                   onPress={() =>
                     router.push({
                       pathname: "/recipe/[id]",
-                      params: { id: recipe.id },
+                      params: {
+                        id: recipe.id,
+                        recipe: JSON.stringify(recipe),
+                      },
                     })
                   }
                 />
