@@ -1,3 +1,4 @@
+//I am fairly sure this one is also done
 import { ReactNode } from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

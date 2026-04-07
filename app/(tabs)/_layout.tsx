@@ -1,4 +1,4 @@
-//i gotta add them correct icons //pest_control
+//RIP pest control you will be missed
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
@@ -24,7 +24,7 @@ export default function TabsLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="pest-control" size={size} color={color} />
+            <MaterialIcons name="home" size={size} color={color} />
           ),
         }}
         listeners={{
@@ -41,7 +41,7 @@ export default function TabsLayout() {
         options={{
           title: "Favorites",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="pest-control" size={size} color={color} />
+            <MaterialIcons name="star" size={size} color={color} />
           ),
         }}
       />
@@ -50,7 +50,7 @@ export default function TabsLayout() {
         options={{
           title: "New",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="pest-control" size={size} color={color} />
+            <MaterialIcons name="add-circle-outline" size={size} color={color} />
           ),
         }}
       />
@@ -59,7 +59,7 @@ export default function TabsLayout() {
         options={{
           title: "My Cookbook",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="pest-control" size={size} color={color} />
+            <MaterialIcons name="book" size={size} color={color} />
           ),
         }}
       />
@@ -68,7 +68,7 @@ export default function TabsLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="pest-control" size={size} color={color} />
+            <MaterialIcons name="settings" size={size} color={color} />
           ),
         }}
       />

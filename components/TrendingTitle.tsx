@@ -11,7 +11,7 @@ export default function TrendingTitle({ title }: TrendingTitleProps) {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 22,
+    fontSize: 30,
     fontWeight: "700",
     color: colors.main_nav,
     marginBottom: 8,

@@ -3,4 +3,6 @@ export const colors = {
   accent: "#ECDFCC",
   primary_orange: "#E57D36",
   secondary_orange: "#EBAD62",
+  place_holder: "#69625e"
 };
+// the other blue we use is #7595B0

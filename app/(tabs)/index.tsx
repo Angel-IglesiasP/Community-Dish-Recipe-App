@@ -226,9 +226,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   trendingContainer: {
-    backgroundColor: "#caa2a2",
+    backgroundColor: colors.accent,
     borderWidth: 2,
-    borderColor: "#000000",
+    borderColor: colors.main_nav,
     borderRadius: 20,
     padding: 1,
     margin: 15,

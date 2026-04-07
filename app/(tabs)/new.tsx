@@ -199,7 +199,7 @@ export default function NewRecipeScreen() {
               value={title}
               onChangeText={setTitle}
               placeholder="Enter recipe title"
-              placeholderTextColor={colors.main_nav}
+              placeholderTextColor={colors.place_holder}
               style={styles.input}
             />
           </View>
@@ -215,7 +215,7 @@ export default function NewRecipeScreen() {
               value={category}
               onChangeText={setCategory}
               placeholder="Enter recipe category"
-              placeholderTextColor={colors.main_nav}
+              placeholderTextColor={colors.place_holder}
               style={styles.input}
             />
           </View>
@@ -231,7 +231,7 @@ export default function NewRecipeScreen() {
               value={description}
               onChangeText={setDescription}
               placeholder="Enter recipe description"
-              placeholderTextColor={colors.main_nav}
+              placeholderTextColor={colors.place_holder}
               style={styles.textArea}
               multiline
               textAlignVertical="top"
@@ -249,7 +249,7 @@ export default function NewRecipeScreen() {
               value={servings}
               onChangeText={setServings}
               placeholder="e.g. 4-6 people"
-              placeholderTextColor={colors.main_nav}
+              placeholderTextColor={colors.place_holder}
               style={styles.input}
             />
           </View>
@@ -273,14 +273,14 @@ export default function NewRecipeScreen() {
                   updateIngredient(index, "amount", value)
                 }
                 placeholder="Qty"
-                placeholderTextColor={colors.main_nav}
+                placeholderTextColor={colors.place_holder}
                 style={styles.amountInput}
               />
               <TextInput
                 value={ingredient.name}
                 onChangeText={(value) => updateIngredient(index, "name", value)}
                 placeholder="Ingredient name"
-                placeholderTextColor={colors.main_nav}
+                placeholderTextColor={colors.place_holder}
                 style={styles.ingredientInput}
               />
             </View>
@@ -310,7 +310,7 @@ export default function NewRecipeScreen() {
                 value={stepItem.step}
                 onChangeText={(value) => updatePreparationStep(index, value)}
                 placeholder={`Describe step ${index + 1}`}
-                placeholderTextColor={colors.main_nav}
+                placeholderTextColor={colors.place_holder}
                 style={styles.preparationInput}
                 multiline
                 textAlignVertical="top"
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    color: colors.main_nav,
+    color: colors.place_holder,
     fontSize: 18,
     minHeight: 140,
   },

@@ -50,8 +50,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   emptyText: {
-    fontSize: 16,
-    color: colors.main_nav,
+    borderRadius:10,
+    padding:12,
+    backgroundColor:colors.accent,
+    fontSize: 18,
+    fontWeight: "600",
+    color: colors.place_holder,
     textAlign: "center",
   },
   grid: {
