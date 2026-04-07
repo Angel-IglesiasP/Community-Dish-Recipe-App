@@ -1,5 +1,6 @@
 import { AuthProvider, useAuth } from "@/src/context/AuthContext";
 import { FavoritesProvider } from "@/src/context/FavoritesContext";
+import { MyRecipesProvider } from "@/src/context/MyRecipesContext";
 import { Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 
@@ -31,7 +32,9 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <FavoritesProvider>
-        <RouteNavigator />
+        <MyRecipesProvider>
+          <RouteNavigator />
+        </MyRecipesProvider>
       </FavoritesProvider>
     </AuthProvider>
   );

@@ -16,23 +16,23 @@ export default function CategoryTitle({ title }: CategoryTitleProps) {
 const styles = StyleSheet.create({
   pill: {
     alignSelf: "flex-start",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primary_orange,
     borderRadius: 999,
     paddingHorizontal: 18,
     paddingVertical: 6,
     marginBottom: 12,
-    marginLeft: -25,
-    width: 150,
-    shadowColor: "#e0c9c97a",
+    marginLeft: -18,
+    width: 230,
+    shadowColor: "#0000007a", //fix the shadows!!
     shadowOffset: {
       width: 1,
       height: 3,
     },
   },
   text: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    fontWeight: "600",
+    color: colors.accent,
+    fontSize: 26,
+    fontWeight: "500",
     textAlign: "center",
   },
 });

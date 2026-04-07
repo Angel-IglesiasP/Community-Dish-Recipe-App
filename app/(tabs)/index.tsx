@@ -1,5 +1,5 @@
 import { useFavorites } from "@/src/context/FavoritesContext";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -120,7 +120,7 @@ export default function HomeScreen() {
       />
 
       {loading || homeLoading ? (
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.primary_orange} />
       ) : null}
 
       {errorMessage ? (
@@ -134,7 +134,20 @@ export default function HomeScreen() {
             <View style={styles.grid}>
               {searchResults.map((recipe) => (
                 <View key={recipe.id} style={styles.gridItem}>
-                  <RecipeCard recipe={recipe} />
+                  <RecipeCard
+                    recipe={recipe}
+                    isFavorite={isFavorite(recipe.id)}
+                    onToggleFavorite={() => toggleFavorite(recipe)}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/recipe/[id]",
+                        params: {
+                          id: recipe.id,
+                          recipe: JSON.stringify(recipe),
+                        },
+                      })
+                    }
+                  />
                 </View>
               ))}
             </View>
@@ -158,6 +171,15 @@ export default function HomeScreen() {
                     recipe={recipe}
                     isFavorite={isFavorite(recipe.id)}
                     onToggleFavorite={() => toggleFavorite(recipe)}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/recipe/[id]",
+                        params: {
+                          id: recipe.id,
+                          recipe: JSON.stringify(recipe),
+                        },
+                      })
+                    }
                   />
                 ))}
               </ScrollView>
@@ -177,6 +199,15 @@ export default function HomeScreen() {
                       recipe={recipe}
                       isFavorite={isFavorite(recipe.id)}
                       onToggleFavorite={() => toggleFavorite(recipe)}
+                      onPress={() =>
+                        router.push({
+                          pathname: "/recipe/[id]",
+                          params: {
+                            id: recipe.id,
+                            recipe: JSON.stringify(recipe),
+                          },
+                        })
+                      }
                     />
                   ))}
                 </ScrollView>
@@ -199,8 +230,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   emptyText: {
-    color: colors.mutedText,
+    color: colors.main_nav,
     fontSize: 16,
+    fontWeight: "600",
+    textShadowColor: "rgba(255, 192, 82, 0.75)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 12,
     marginTop: 8,
     marginBottom: 16,
     textAlign: "center",
@@ -218,16 +253,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   trendingContainer: {
-    backgroundColor: "#caa2a2",
+    backgroundColor: colors.accent,
     borderWidth: 2,
-    borderColor: "#000000",
+    borderColor: colors.main_nav,
     borderRadius: 20,
     padding: 1,
     margin: 15,
   },
   trendingDivider: {
     height: 2,
-    backgroundColor: "#000000",
+    backgroundColor: colors.main_nav,
     marginTop: -4,
     marginBottom: 12,
     width: "85%",
@@ -235,8 +270,9 @@ const styles = StyleSheet.create({
   resultsTitle: {
     fontSize: 22,
     fontWeight: "700",
-    color: colors.secondary,
-    marginBottom: 12,
+    color: colors.main_nav,
+    marginBottom: 8,
+    marginTop: 12,
   },
   searchResultsContainer: {
     paddingHorizontal: 12,

@@ -1,5 +1,6 @@
+//I am fairly sure this one is also done
 import { ReactNode } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../constants/colors";
 
@@ -9,8 +10,16 @@ type ScreenContainerProps = {
 
 export default function ScreenContainer({ children }: ScreenContainerProps) {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>{children}</View>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../assets/images/background.png")}
+          resizeMode="cover"
+          style={StyleSheet.absoluteFillObject}
+        />
+
+        <View style={styles.content}>{children}</View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -18,12 +27,13 @@ export default function ScreenContainer({ children }: ScreenContainerProps) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.main_nav,
   },
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+  },
+  content: {
+    flex: 1,
     paddingHorizontal: 0,
-    paddingTop: 12,
   },
 });
