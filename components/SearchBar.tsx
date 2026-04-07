@@ -1,3 +1,4 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, TextInput, View } from "react-native";
 import { colors } from "../constants/colors";
 
@@ -16,15 +17,17 @@ export default function SearchBar({
 }: SearchBarProps) {
   return (
     <View style={styles.wrapper}>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        onSubmitEditing={onSubmit}
-        placeholder={placeholder}
-        placeholderTextColor={colors.main_nav}
-        returnKeyType="search"
-        style={styles.input}
-      />
+      <View style={styles.container}>
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          onSubmitEditing={onSubmit}
+          placeholder={placeholder}
+          placeholderTextColor={colors.place_holder}
+          returnKeyType="search"
+        />
+        <MaterialIcons name="search" size={25} color={colors.place_holder} />
+      </View>
     </View>
   );
 }
@@ -34,12 +37,15 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flex: 1,
   },
-  input: {
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     backgroundColor: colors.accent,
-    borderWidth: 1,
     borderRadius: 25,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     fontSize: 16,
     fontWeight: "500",
     color: colors.main_nav,

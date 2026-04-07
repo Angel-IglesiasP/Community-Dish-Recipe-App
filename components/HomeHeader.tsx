@@ -1,4 +1,4 @@
-//done!!
+//done
 import { colors } from "@/constants/colors";
 import { Image, StyleSheet, View } from "react-native";
 import SearchBar from "./SearchBar";

@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   emptyText: {
-    fontSize: 16,
+    borderRadius: 10,
+    padding: 12,
+    backgroundColor: colors.accent,
+    fontSize: 18,
     fontWeight: "600",
-    textShadowColor: "rgba(255, 192, 82, 0.75)",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 12,
-    color: colors.main_nav,
+    color: colors.place_holder,
     textAlign: "center",
   },
   favoriteItem: {
