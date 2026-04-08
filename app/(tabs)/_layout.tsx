@@ -1,11 +1,32 @@
+//RIP pest control you will be missed
+
+import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
+import { colors } from "../../constants/colors";
 
 export default function TabsLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: colors.main_nav,
+          height: 70,
+          borderTopWidth: 0,
+          paddingBottom: 0,
+        },
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.secondary_orange,
+      }}
+    >
       <Tabs.Screen
         name="index"
-        options={{ title: "Home" }}
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="home" size={size} color={color} />
+          ),
+        }}
         listeners={{
           tabPress: () => {
             router.replace({
@@ -17,20 +38,46 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="favorites"
-        options={{ title: "Favorites" }}
+        options={{
+          title: "Favorites",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="star" size={size} color={color} />
+          ),
+        }}
       />
       <Tabs.Screen
         name="new"
-        options={{ title: "New" }}
+        options={{
+          title: "New",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="add-circle-outline"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
       />
       <Tabs.Screen
         name="cookbook"
-        options={{ title: "My Cookbook" }}
+        options={{
+          title: "My Cookbook",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="book" size={size} color={color} />
+          ),
+        }}
       />
       <Tabs.Screen
         name="settings"
-        options={{ title: "Settings" }}
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="settings" size={size} color={color} />
+          ),
+        }}
       />
+      {/* this is just to hide the recipe[id] from showing in the nav bar. dont worry about it twin */}
+      <Tabs.Screen name="recipe/[id]" options={{ href: null }} />
     </Tabs>
   );
 }

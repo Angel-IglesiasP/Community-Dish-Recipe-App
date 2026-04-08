@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { Recipe } from "../types/recipe";
 import { colors } from "../constants/colors";
+import { Recipe } from "../types/recipe";
 
 type RecipePreviewCardProps = {
   recipe: Recipe;
@@ -44,12 +44,13 @@ export default function RecipePreviewCard({
 const styles = StyleSheet.create({
   card: {
     width: 220,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accent,
     borderRadius: 12,
     overflow: "hidden",
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginRight: 12,
+    borderWidth: 2,
+    borderColor: colors.secondary_orange,
+    marginRight: 6,
+    marginLeft: 6,
   },
   imageWrapper: {
     position: "relative",
@@ -61,28 +62,27 @@ const styles = StyleSheet.create({
   imagePlaceholder: {
     width: "100%",
     height: 130,
-    backgroundColor: colors.border,
     justifyContent: "center",
     alignItems: "center",
   },
   placeholderText: {
-    color: colors.mutedText,
+    color: colors.main_nav,
     fontSize: 14,
   },
   favoriteButton: {
-  position: "absolute",
-  right: 8,
-  bottom: 8,
-  width: 28,
-  height: 28,
-  borderRadius: 14,
-  backgroundColor: "rgba(255,255,255,0.9)",
-  justifyContent: "center",
-  alignItems: "center",
+    position: "absolute",
+    right: 8,
+    bottom: 8,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   favoriteIcon: {
     fontSize: 18,
-    color: colors.secondary,
+    color: colors.primary_orange,
   },
   content: {
     padding: 12,
@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "700",
-    color: colors.text,
+    color: colors.main_nav,
   },
   category: {
     fontSize: 14,
-    color: colors.mutedText,
+    color: colors.main_nav,
   },
 });

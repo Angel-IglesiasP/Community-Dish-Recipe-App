@@ -1,15 +1,74 @@
-import { Text, View } from "react-native";
+import { useMyRecipes } from "@/src/context/MyRecipesContext";
+import { router } from "expo-router";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import RecipeCard from "../../components/RecipeCard";
+import ScreenContainer from "../../components/ScreenContainer";
+import SectionHeader from "../../components/SectionHeader";
+import { colors } from "../../constants/colors";
 
-export default function HomeScreen() {
+export default function CookbookScreen() {
+  const { myRecipes } = useMyRecipes();
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>book</Text>
-    </View>
+    <ScreenContainer>
+      <SectionHeader title="My Cookbook" />
+
+      {myRecipes.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            You have not created any recipes yet.
+          </Text>
+        </View>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.grid}>
+            {myRecipes.map((recipe) => (
+              <View key={recipe.id} style={styles.gridItem}>
+                <RecipeCard
+                  recipe={recipe}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/recipe/[id]",
+                      params: {
+                        id: recipe.id,
+                        recipe: JSON.stringify(recipe),
+                      },
+                    })
+                  }
+                />
+              </View>
+            ))}
+          </View>
+        </ScrollView>
+      )}
+    </ScreenContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
+  },
+  emptyText: {
+    borderRadius: 10,
+    padding: 12,
+    backgroundColor: colors.accent,
+    fontSize: 18,
+    fontWeight: "600",
+    color: colors.place_holder,
+    textAlign: "center",
+  },
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
+  },
+  gridItem: {
+    width: "48%",
+    marginBottom: 12,
+  },
+});

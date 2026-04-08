@@ -3,16 +3,18 @@ import { Link } from "expo-router";
 import { Formik } from "formik";
 import { useState } from "react";
 import {
-    ActivityIndicator,
-    KeyboardAvoidingView,
-    Platform,
-    Pressable,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import * as Yup from "yup";
+import ScreenContainer from "../../components/ScreenContainer";
+import { colors } from "../../constants/colors";
 
 const RegisterSchema = Yup.object({
   name: Yup.string().required("Please enter a username"),
@@ -70,122 +72,126 @@ export default function RegisterScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.screen}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <View style={styles.form}>
-        <Text style={styles.title}>Sign Up</Text>
-        <Text style={styles.subtitle}>Welcome to Community Dish</Text>
+    <ScreenContainer>
+      <KeyboardAvoidingView
+        style={styles.screen}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        <View style={styles.form}>
+          <Text style={styles.title}>Sign Up</Text>
+          <Text style={styles.subtitle}>Welcome to Community Dish</Text>
 
-        <Formik<RegisterValues>
-          initialValues={{
-            name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-          }}
-          validationSchema={RegisterSchema}
-          onSubmit={handleSubmit}
-        >
-          {({
-            values,
-            touched,
-            errors,
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            isSubmitting,
-          }) => (
-            <View>
-              <View style={styles.card}>
-                <Text>Username</Text>
-                <TextInput
-                  style={styles.inputBorder}
-                  placeholder="Create unique name"
-                  autoCorrect={false}
-                  value={values.name}
-                  onChangeText={handleChange("name")}
-                  onBlur={handleBlur("name")}
-                />
-                {touched.name && errors.name ? (
-                  <Text style={styles.errorRed}>{errors.name}</Text>
+          <Formik<RegisterValues>
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+            }}
+            validationSchema={RegisterSchema}
+            onSubmit={handleSubmit}
+          >
+            {({
+              values,
+              touched,
+              errors,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <View>
+                <View style={styles.card}>
+                  <Text>Username</Text>
+                  <TextInput
+                    style={styles.inputBorder}
+                    placeholder="Create unique name"
+                    autoCorrect={false}
+                    value={values.name}
+                    onChangeText={handleChange("name")}
+                    onBlur={handleBlur("name")}
+                  />
+                  {touched.name && errors.name ? (
+                    <Text style={styles.errorRed}>{errors.name}</Text>
+                  ) : null}
+                </View>
+
+                <View style={styles.card}>
+                  <Text>Email</Text>
+                  <TextInput
+                    style={styles.inputBorder}
+                    placeholder="example@gmail.com"
+                    autoCorrect={false}
+                    keyboardType="email-address"
+                    value={values.email}
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                  />
+                  {touched.email && errors.email ? (
+                    <Text style={styles.errorRed}>{errors.email}</Text>
+                  ) : null}
+                </View>
+
+                <View style={styles.card}>
+                  <Text>Password</Text>
+                  <TextInput
+                    style={styles.inputBorder}
+                    placeholder="type password here"
+                    secureTextEntry
+                    value={values.password}
+                    onChangeText={handleChange("password")}
+                    onBlur={handleBlur("password")}
+                  />
+                  {touched.password && errors.password ? (
+                    <Text style={styles.errorRed}>{errors.password}</Text>
+                  ) : null}
+                </View>
+
+                <View style={styles.card}>
+                  <Text>Confirm Password</Text>
+                  <TextInput
+                    style={styles.inputBorder}
+                    placeholder="Confirm password here"
+                    secureTextEntry
+                    value={values.confirmPassword}
+                    onChangeText={handleChange("confirmPassword")}
+                    onBlur={handleBlur("confirmPassword")}
+                  />
+                  {touched.confirmPassword && errors.confirmPassword ? (
+                    <Text style={styles.errorRed}>
+                      {errors.confirmPassword}
+                    </Text>
+                  ) : null}
+                </View>
+
+                {serverError ? (
+                  <Text style={styles.errorRed}>{serverError}</Text>
                 ) : null}
+
+                <Pressable
+                  style={styles.button}
+                  onPress={() => handleSubmit()}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <ActivityIndicator color="#ddd" />
+                  ) : (
+                    <Text style={styles.textBold}>Register Account</Text>
+                  )}
+                </Pressable>
+
+                <Text style={[styles.subtext, styles.card]}>
+                  Already have an account.{" "}
+                  <Link href={"/(auth)/login"} style={styles.linktext}>
+                    Click here to return to login page
+                  </Link>
+                </Text>
               </View>
-
-              <View style={styles.card}>
-                <Text>Email</Text>
-                <TextInput
-                  style={styles.inputBorder}
-                  placeholder="example@gmail.com"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                  value={values.email}
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                />
-                {touched.email && errors.email ? (
-                  <Text style={styles.errorRed}>{errors.email}</Text>
-                ) : null}
-              </View>
-
-              <View style={styles.card}>
-                <Text>Password</Text>
-                <TextInput
-                  style={styles.inputBorder}
-                  placeholder="type password here"
-                  secureTextEntry
-                  value={values.password}
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                />
-                {touched.password && errors.password ? (
-                  <Text style={styles.errorRed}>{errors.password}</Text>
-                ) : null}
-              </View>
-
-              <View style={styles.card}>
-                <Text>Confirm Password</Text>
-                <TextInput
-                  style={styles.inputBorder}
-                  placeholder="Confirm password here"
-                  secureTextEntry
-                  value={values.confirmPassword}
-                  onChangeText={handleChange("confirmPassword")}
-                  onBlur={handleBlur("confirmPassword")}
-                />
-                {touched.confirmPassword && errors.confirmPassword ? (
-                  <Text style={styles.errorRed}>{errors.confirmPassword}</Text>
-                ) : null}
-              </View>
-
-              {serverError ? (
-                <Text style={styles.errorRed}>{serverError}</Text>
-              ) : null}
-
-              <Pressable
-                style={styles.button}
-                onPress={() => handleSubmit()}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <ActivityIndicator color="#ddd" />
-                ) : (
-                  <Text style={styles.textBold}>Register Account</Text>
-                )}
-              </Pressable>
-
-              <Text style={[styles.subtext, styles.card]}>
-                Already have an account.{" "}
-                <Link href={"/(auth)/login"} style={styles.linktext}>
-                  Click here to return to login page
-                </Link>
-              </Text>
-            </View>
-          )}
-        </Formik>
-      </View>
-    </KeyboardAvoidingView>
+            )}
+          </Formik>
+        </View>
+      </KeyboardAvoidingView>
+    </ScreenContainer>
   );
 }
 
@@ -194,14 +200,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#eee",
   },
-  form: { gap: 8, padding: 10, borderRadius: 10, backgroundColor: "#fff" },
+  form: {
+    borderWidth: 3,
+    borderColor: colors.main_nav,
+    gap: 8,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: colors.accent,
+  },
+
   card: { padding: 10, gap: 8 },
+
   button: {
+    borderRadius: 5,
     alignSelf: "center",
     padding: 8,
-    backgroundColor: "#eee",
+    backgroundColor: colors.secondary_orange,
     alignItems: "center",
     minWidth: 100,
   },
@@ -209,9 +224,15 @@ const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: "bold" },
   subtitle: { fontSize: 18, fontWeight: "bold" },
   subtext: { fontSize: 11 },
-  linktext: { color: "#59f", textDecorationLine: "underline" },
+  linktext: { color: "#7595B0", textDecorationLine: "underline" },
 
-  inputBorder: { borderWidth: 1, borderColor: "#ddd", padding: 10 },
+  inputBorder: {
+    borderWidth: 1,
+    borderColor: colors.main_nav,
+    padding: 10,
+    borderRadius: 5,
+  },
+
   textBold: { fontWeight: "bold" },
   errorRed: { color: "#f55" },
 });
